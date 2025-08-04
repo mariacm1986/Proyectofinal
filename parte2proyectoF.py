@@ -28,7 +28,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 st.title("📊 Limpieza, Codificación y Descarga de Datos")
 
 # 1. Cargar base de datos
-dt = pd.read_csv("K:/OneDrive/Portatil-HP/Python-Practica/dataset_estadistica.csv")
+dt = pd.read_csv("dataset_estadistica.csv")
 
 # 2. Imputar datos numéricos (Ingreso_Mensual y Horas_Estudio_Semanal)
 imputer_num = SimpleImputer(strategy="mean")
