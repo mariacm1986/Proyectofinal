@@ -163,3 +163,27 @@ if st.sidebar.button("🔮 Predecir KNN", key="btn_knn"):
     nuevo_knn = scaler_knn.transform([[edad_input, ingreso_input]])
     pred_knn = knn.predict(nuevo_knn)
     st.sidebar.success(f"Predicción KNN: {pred_knn[0]}")
+
+# Gráfico de predicción KNN
+# --------------------------
+st.subheader("Visualización KNN")
+
+# Datos para graficar
+fig_knn, ax_knn = plt.subplots()
+# Graficar puntos de entrenamiento según su clase
+clases = y_knn.unique()
+colores = ['blue', 'orange']
+for i, clase in enumerate(clases):
+    mask = y_knn == clase
+    ax_knn.scatter(X_knn.loc[mask, 'Edad'], X_knn.loc[mask, 'Ingreso_Mensual'],
+                   color=colores[i], label="Deportista" if clase==0 else "No Deportista", alpha=0.6)
+
+# Graficar nuevo dato ingresado
+ax_knn.scatter(edad_input, ingreso_input, color='black', marker='X', s=100,
+               label=f"Nuevo Dato ({edad_input},{ingreso_input})")
+
+ax_knn.set_xlabel("Edad")
+ax_knn.set_ylabel("Ingreso Mensual")
+ax_knn.set_title(f"Clasificación KNN - Predicción:{pred_knn[0]}")
+ax_knn.legend()
+st.pyplot(fig_knn)
