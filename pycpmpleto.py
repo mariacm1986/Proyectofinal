@@ -16,7 +16,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score, confusion_matrix, accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import mean_squared_error, r2_score
+from scipy import stats
 
 # --------------------------
 # Cargar datos con cache
@@ -152,14 +152,17 @@ if st.sidebar.button("🔮 Predecir KNN"):
     nuevo_knn = scaler_knn.transform([[edad_input, ingreso_input]])
     pred_knn = knn.predict(nuevo_knn)
     st.sidebar.success(f"Predicción KNN: {pred_knn[0]}")
-    
-st.markdown("---")
-st.subheader("2) Cálculo de Media Aritmética")
 
-c1, c2, c3, c4 = st.columns(4)
-c1.metric("Filas", f"{len(df):,}")
-c2.metric("Edad (media)", f"{df['Edad'].mean():.2f}")
-c3.metric(" Ingreso_Mensual(media)", f"{df['Ingreso_Mensual'].mean():.2f}")
-c4.metric("Horas_Estudio_Semanal (media)", f"{df['Horas_Estudio_Semanal'].mean():.2f}")
+st.markdown("---")    
+st.header("📊 Medidas descriptivas para variables cuantitativas")
 
+medidas = pd.DataFrame({
+    "Media": ds_numeric.mean(),
+    "Mediana": ds_numeric.median(),
+    "Moda": ds_numeric.mode().iloc[0],  # la primera moda
+    "Asimetría": ds_numeric.skew(),
+    "Curtosis": ds_numeric.kurt()
+})
+
+st.dataframe(medidas)
     
